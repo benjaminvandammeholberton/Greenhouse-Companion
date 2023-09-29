@@ -3,4 +3,4 @@ from flask import jsonify
 
 class Home(Resource):
     def get(self):
-        return jsonify({"message": "Hello Gardener"})
+        return jsonify({"message": "Hello World"})
