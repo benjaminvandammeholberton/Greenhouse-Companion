@@ -2,7 +2,7 @@ from flask import jsonify
 from flask_restful import Resource, fields, marshal_with, reqparse
 from models.vegetable_infos_model import VegetableInfosModel
 from models import db
-from utils import abort_if_doesnt_exist
+from utils import abort_if_doesnt_exist, abort_if_exists
 from datetime import datetime
 
 resource_fields = {
@@ -111,6 +111,8 @@ class VegetableInfosList(Resource):
             )
 
         args = parser_create.parse_args()
+
+        abort_if_exists(VegetableInfosModel, 'name', args['name'])
 
         # Parse date fields from strings to datetime.date objects
         date_fields = ['start_indoor', 'start_outdoor', 'end']
