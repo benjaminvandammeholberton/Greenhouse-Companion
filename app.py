@@ -13,7 +13,7 @@ from views.home_view import Home
 from views.login_view import Login
 from views.sensors_view import Sensor, SensorList, SensorsLast
 from views.to_do_view import Todo, TodoList
-from views.user_view import User, UserList
+from views.user_view import User, UserList, PromoteUser
 from views.vegetable_infos_view import VegetableInfos, VegetableInfosList
 from views.vegetable_manager_view import VegetableManager, VegetableManagerList
 
@@ -42,8 +42,10 @@ db.init_app(app)
 api.add_resource(Home, '/')
 
 # api.add_resource(Login, '/login')
+
 api.add_resource(User, '/users/<string:user_id>')
 api.add_resource(UserList, '/users')
+api.add_resource(PromoteUser, '/users/promote/<string:user_id>')
 
 api.add_resource(Area, '/areas/<string:area_id>')
 api.add_resource(AreaList, '/areas')
