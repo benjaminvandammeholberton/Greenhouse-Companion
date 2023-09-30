@@ -16,13 +16,7 @@ app = Flask(__name__)
 api = Api(app)
 
 
-GREENHOUSE_MYSQL_USER = 'greenhouse_dev'
-GREENHOUSE_MYSQL_PWD = 'AVNS_I6mOdk372jRm8stpS0d'
-GREENHOUSE_MYSQL_HOST = 'db-mysql-ams3-26566-do-user-14634177-0.b.db.ondigitalocean.com'
-GREENHOUSE_MYSQL_DB = 'greenhouse_db'
-GREENHOUSE_MYSQL_PORT = 25060
-
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://{}:{}@{}:{}/{}'.format(GREENHOUSE_MYSQL_USER, GREENHOUSE_MYSQL_PWD, GREENHOUSE_MYSQL_HOST, GREENHOUSE_MYSQL_PORT, GREENHOUSE_MYSQL_DB)
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///your_database.db'
 
 db.init_app(app)
 CORS(app)
