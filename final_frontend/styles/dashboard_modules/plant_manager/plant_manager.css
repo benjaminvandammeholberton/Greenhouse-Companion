@@ -260,6 +260,11 @@ button.return-button {
   overflow-y: scroll;
 }
 
+.sowing-table-container::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+}
+
 #sowing-table {
   display: block;
   border-collapse: collapse;

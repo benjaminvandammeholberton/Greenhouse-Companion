@@ -54,26 +54,26 @@ const addButtonPlant = document.querySelector('#add-vegetable-button-plant');
 addButtonPlant.addEventListener('click', function (event) {
   event.preventDefault(); // Prevent the default form submission
 
-// Retrieve the quantity value within the event handler
-const quantity = document.querySelector('#quantity_plant').value;
-const selectedNameOption = document.querySelector('#name_plant option:checked');
-const sowingDate = document.querySelector('#planting_date').value;
-const selectedName = selectedNameOption ? selectedNameOption.textContent : '';
-const isSowed = selectedNameOption ? selectedNameOption.dataset.sowed === 'true' : false;
+  // Retrieve the quantity value within the event handler
+  const quantity = document.querySelector('#quantity_plant').value;
+  const selectedNameOption = document.querySelector('#name_plant option:checked');
+  const plantingDate = document.querySelector('#planting_date').value;
+  const selectedName = selectedNameOption ? selectedNameOption.textContent.split(' - ')[0] : '';
+  const isSowed = selectedNameOption ? selectedNameOption.dataset.sowed === 'true' : false;
 
-  // Define your server URL
-  const baseUrl = 'https://walrus-app-jbfmz.ondigitalocean.app/vegetable_manager';
-  const serverUrl = isSowed ? `${baseUrl}/${selectedNameOption.value}` : baseUrl;
+    // Define your server URL
+    const baseUrl = 'https://walrus-app-jbfmz.ondigitalocean.app/vegetable_manager';
+    const serverUrl = isSowed ? `${baseUrl}/${selectedNameOption.value}` : baseUrl;
 
-// Rest of your code to construct formData
-const formData = {
-  'name': selectedName,
-  'quantity': quantity,
-  'area_id': document.querySelector('#garden_area_plant').value,
-  'sowed': isSowed,
-  'planted': true,
-  'planting_date': sowingDate,
-};
+  // Rest of your code to construct formData
+  const formData = {
+    'name': selectedName,
+    'quantity': quantity,
+    'area_id': document.querySelector('#garden_area_plant').value,
+    'sowed': isSowed,
+    'planted': true,
+    'planting_date': plantingDate,
+  };
 
   console.log('Form data:', formData);
   // Send a POST request to your server
@@ -106,6 +106,17 @@ const formData = {
     });
 });
 
+// Function to get the current date in YYYY-MM-DD format
+function getCurrentDate() {
+  const today = new Date();
+  const year = today.getFullYear();
+  const month = String(today.getMonth() + 1).padStart(2, '0');
+  const day = String(today.getDate()).padStart(2, '0');
+  return `${year}-${month}-${day}`;
+}
+
+document.getElementById('planting_date').value = getCurrentDate();
+
 // Function to clear the form after submission
 function clearFormPlant() {
   document.querySelector('#name_plant').value = '';
@@ -118,6 +129,7 @@ const areaNameMap = {};
 function fetchGardenAreas() {
 
   const apiUrl = 'https://walrus-app-jbfmz.ondigitalocean.app/areas';
+  const sowGardenAreaId = '64722a61-55a2-47ef-af3c-f05634b2b862';
 
   fetch(apiUrl)
     .then((response) => response.json())
@@ -127,11 +139,13 @@ function fetchGardenAreas() {
 
       // Loop through the garden area data and create options
       data.forEach((gardenArea) => {
-        areaNameMap[gardenArea.id] = gardenArea.name;
-        const option = document.createElement('option');
-        option.value = gardenArea.id; // Set the value to the garden area ID
-        option.textContent = gardenArea.name; // Set the text content to the garden area name
-        gardenAreaSelect.appendChild(option);
+        if (gardenArea.id !== sowGardenAreaId) { // Exclude Sow_gardenArea
+          areaNameMap[gardenArea.id] = gardenArea.name;
+          const option = document.createElement('option');
+          option.value = gardenArea.id;
+          option.textContent = gardenArea.name;
+          gardenAreaSelect.appendChild(option);
+        }
       });
     })
     .catch((error) => {
@@ -197,14 +211,19 @@ showSowedVegetablesCheckbox.addEventListener('change', function () {
     fetch(baseUrl)
       .then((response) => response.json())
       .then((data) => {
-        const sowedVegetables = data.filter((vegetable) => vegetable.sowed === true && vegetable.planted === false);
+        const sowedVegetables = data.filter((vegetable) => vegetable.area_id === sowGardenAreaId);
 
         sowedVegetables.forEach((vegetable) => {
           const option = document.createElement('option');
           option.value = vegetable.id;
-          const gardenAreaName = areaNameMap[vegetable.area_id];
-          // option.textContent = vegetable.name;
-          option.textContent = `${vegetable.name} (${gardenAreaName})`;
+
+          // Parse the sowing date and calculate the number of days
+        const sowingDate = new Date(vegetable.sowing_date);
+        const currentDate = new Date();
+        const timeDifference = currentDate - sowingDate;
+        const daysSowed = Math.ceil(timeDifference / (1000 * 3600 * 24));
+
+          option.textContent = `${vegetable.name} - ${daysSowed} days ago (${vegetable.quantity})`;
           option.dataset.sowed = vegetable.sowed;
           nameSelect.appendChild(option);
         });

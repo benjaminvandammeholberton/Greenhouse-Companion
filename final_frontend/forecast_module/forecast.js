@@ -1,5 +1,5 @@
 // Make an API request and get the forecast data
-const BASE_URL = 'https://api.openweathermap.org/data/3.0/onecall?lat=48.0706687&lon=-0.7734022&exclude=hourly,minutely,alerts&appid=9b14c40da416807a32337c8ec78d4c15'
+// const BASE_URL = 'https://api.openweathermap.org/data/3.0/onecall?lat=48.0706687&lon=-0.7734022&exclude=hourly,minutely,alerts&appid=9b14c40da416807a32337c8ec78d4c15'
 
   fetch(BASE_URL)
   .then(response => response.json())
