@@ -8,6 +8,10 @@ const plantManagerModule = document.querySelector(
   '.dashbord__module--plant-manager '
 );
 const assistantModule = document.querySelector('.dashbord__module--assistant');
+const chatOutput = document.querySelector('.chat-output');
+
+const chatContainer = document.querySelector('.chat-container');
+
 const forecastModule = document.querySelector('.dashbord__module--forecast');
 const toDoModule = document.querySelector('.dashbord__module--todolist');
 
@@ -40,12 +44,14 @@ assistantModuleTitle.addEventListener('click', (event) => {
     assistantModule.style.borderRadius = '';
     forecastModule.style.display = 'flex';
     toDoModule.style.display = 'flex';
+    chatOutput.style.display = 'none';
   } else {
     assistantModule.style.gridRow = 'span 2';
     assistantModule.style.gridColumn = 'span 2';
     assistantModule.style.borderRadius = '5px 5px 100px 5px';
     forecastModule.style.display = 'none';
     toDoModule.style.display = 'none';
+    chatOutput.style.display = 'block';
   }
 
   isAssistantToggled = !isAssistantToggled; // Toggle the state

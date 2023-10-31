@@ -227,7 +227,7 @@ function showSuccessMessage1(data) {
 
   if (!isNaN(data.quantity)) {
     // Success: Vegetable was created
-    message.textContent = `Congratulations, ${data.name} sowed!`;
+    message.textContent = `Congratulations, ${data.name} sowed !`;
   } else {
     // Error: Quantity needs to be a number
     message.textContent = 'Error ! Quantity needs to be a number.';

@@ -31,7 +31,7 @@
   height: 40px;
 }
 .forecast-container__rain {
-  width: 43px;
+  width: 47px;
   text-align: right;
   overflow: visible;
   background-image: url(../assets/water.png);
@@ -44,4 +44,17 @@
 
 .forecast-container__temperature {
   font-weight: 400;
+}
+
+.forecast-tooltip {
+  position: absolute;
+  display: none;
+  position: absolute;
+  background-color: white;
+  padding: 4px;
+  top : 45px;
+  border: 1px solid black;
+  border-radius: 10px;
+  cursor: text;
+  font-size: 12px;
 }
