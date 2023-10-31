@@ -25,6 +25,7 @@
   align-items: center;
   gap: 12px;
   font-size: 15px;
+  margin-top: 20px;
 }
 .forecast-container__icon {
   width: 40px;
@@ -37,6 +38,9 @@
   background-image: url(../assets/water.png);
   background-repeat: no-repeat;
   background-size: 17px;
+}
+.forecast-container__rain span {
+  font-size: 8px; /* Set the font size to your desired value, e.g., 14 pixels */
 }
 .forecast-container__day {
   font-weight: 500;
